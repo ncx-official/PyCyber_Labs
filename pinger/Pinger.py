@@ -54,9 +54,9 @@ def send_ping_request(dest_ip, current_os):
 
 def main():
     parser = argparse.ArgumentParser(description='Automated ping using Python.')
-    parser.add_argument('--log', dest='log_to_file', action='store_true', help='Enable logging to a file')
-    parser.add_argument('--log-file', dest='log_file', default='output.log', help='Specify the log file name')
-    parser.add_argument('--file', dest='input_file', help='Specify the input file containing addresses to ping')
+    parser.add_argument('-l', '--log', dest='log_to_file', action='store_true', help='Enable logging to a file')
+    parser.add_argument('-lf', '--log-file', dest='log_file', default='output.log', help='Specify the log file name')
+    parser.add_argument('-f', '--file', dest='input_file', help='Specify the input file containing addresses to ping')
     parser.add_argument('ip_address', nargs='?', help='Specify a single IP address to ping')
     args = parser.parse_args()
 
