@@ -11,11 +11,12 @@ import platform
 import argparse
 
 def setup_logging(log_to_file=False, log_file='output.log'):
-    logging.basicConfig(format='%(asctime)s - %(levelname)s - %(message)s')
+    logging.basicConfig(format='%(asctime)s - %(levelname)s - %(message)s', level=logging.INFO)
 
     if log_to_file:
         file_handler = logging.FileHandler(log_file)
         file_handler.setFormatter(logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s'))
+        file_handler.setLevel(logging.INFO)
         logging.getLogger().addHandler(file_handler)
 
 def validate_ip_address(text):
