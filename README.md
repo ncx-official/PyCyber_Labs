@@ -1,4 +1,4 @@
-# Cybersecurity with Python Labs
+# Python for Cybersecurity Labs
 
 ## Automated Ping Tool with Python
 Author: Nasikovskyi Vitalii
