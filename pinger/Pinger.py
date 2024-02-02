@@ -5,20 +5,78 @@
 
 import ipaddress
 import socket
-import datetime
+import logging
+import os
+import platform
+
+def setup_logging(log_to_file=False, log_file='output.log'): # Allow users to opt for saving log results.
+    logging.basicConfig(format='%(asctime)s - %(levelname)s - %(message)s')
+
+    if log_to_file:
+        file_handler = logging.FileHandler(log_file)
+        file_handler.setFormatter(logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s'))
+        logging.getLogger().addHandler(file_handler)
 
 def validate_ip_address(text):
     try:
         ip_addr = ipaddress.ip_network(socket.gethostbyname(text))
-        return ip_addr
+        return ip_addr.split("/")[0] # remove subnet mask
     except socket.gaierror as hostNameError:        
-        print(f"{datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')} - Error: {hostNameError}. The provided hostname could not be resolved.")
+        logging.error(f"The provided hostname could not be resolved. ({text})")
     except Exception as e:
-        print(f"{datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')} - An unexpected error occurred: {e}.")
+        logging.error(f"An unexpected error occurred: {e}.")
     return None
 
+def read_file(name):
+    result = []
+    with open(name, 'r') as file:
+        for string in file.read().split("\n"):
+            result.append(string.lower().strip())
+
+    logging.info(f'Reading IPs from {name}')
+    return result
+
+def send_ping_request(dest_ip, current_os):
+    try:
+        ping_command = f"ping -n 1 -w 2 {dest_ip} > nul" if current_os == "windows" else f"ping -c 1 -w {dest_ip} > /dev/null 2>&1"
+        exit_code = os.system(ping_command)
+        
+        info_message = f"{dest_ip} is online" if exit_code == 0 else  f"{dest_ip} is offline"
+        logging.info(info_message)
+    except OSError as e:
+        logging.error(f" {e}Error executing ping command.")
+    except Exception as e:
+        logging.error(f"An unexpected error occurred: {e}.")
+    
+    return exit_code
+
 def main():
-    print(f"\n{validate_ip_address(input('Enter IP: '))}")
+    # setup_logging(log_to_file=True, log_file="TestResult.log")
+
+    # ip_address = validate_ip_address(input("Enter IP: "))
+    
+    # current_os = platform.system().lower()
+    # if current_os is not None:
+    #   send_ping_request(dest_ip=ip_address, current_os=current_os)
+#______________________________________________________________________
+    
+    # setup_logging(log_to_file=True, log_file="TestResult.log")
+    
+    # addresses_list = read_file("addresses_to_ping.txt")
+    
+    # ip_addresses = []
+    # for item in addresses_list:
+    #     result = validate_ip_address(item)
+        
+    #     if result is not None:
+    #         ip_addresses.append(result)
+
+    # logging.info(f'Imported {len(ip_addresses)} IPs')
+
+    # current_os = platform.system().lower()
+    # if current_os is not None:
+    #     for ip in ip_addresses:           
+    #         send_ping_request(dest_ip=ip, current_os=current_os)
 
 if __name__ == "__main__":
     main()
