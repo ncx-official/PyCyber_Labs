@@ -21,7 +21,7 @@ def setup_logging(log_to_file=False, log_file='output.log'):
 def validate_ip_address(text):
     try:
         ip_addr = ipaddress.ip_network(socket.gethostbyname(text))
-        return ip_addr.split("/")[0]  # remove subnet mask
+        return str(ip_addr).split("/")[0]  # remove subnet mask
     except socket.gaierror as hostNameError:
         logging.error(f"The provided hostname could not be resolved. ({text})")
     except Exception as e:
