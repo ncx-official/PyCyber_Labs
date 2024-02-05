@@ -44,10 +44,7 @@ pip install python-nmap
 ```
 python script_name.py <target_ip> <ports>
 ```
-target_ip: The target IP address to scan.
-ports: Port or port range to scan. Use "-" for a range (e.g., 75-125).
 
-Examples
 ```
 python script_name.py 127.0.0.1 80
 ```
