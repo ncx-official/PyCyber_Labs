@@ -1,7 +1,6 @@
 # Python for Cybersecurity Labs
 
 ## Automated Ping Tool with Python
-Author: Nasikovskyi Vitalii
 
 A simple and efficient command-line tool for automated ping using Python. Developed as part of a college lab exercise, this script allows you to check the online or offline status of multiple IP addresses quickly.
 
@@ -29,3 +28,24 @@ Python 3.x
 Platform: Windows/Linux
 
 Feel free to use and modify this script according to your needs. If you encounter any issues or have suggestions for improvements, feel free to open an issue or submit a pull request!
+
+#
+
+## Port Scanner Script
+
+This Python script utilizes the nmap library to scan ports on a specified target IP address. It provides the flexibility to scan a single port or a range of ports.
+
+### Installation
+```pip install python-nmap```
+
+### Usage
+```python script_name.py <target_ip> <ports>```
+<target_ip>: The target IP address to scan.
+<ports>: Port or port range to scan. Use "-" for a range (e.g., 75-125).
+
+Examples
+```python script_name.py 127.0.0.1 80```
+
+To scan a range of ports:
+
+```python script_name.py 127.0.0.1 75-125```
